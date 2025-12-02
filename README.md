@@ -1,4 +1,5 @@
-## Quick Launch with BAT File(Extract all file must local foler not shared folder)
+## Quick Launch with BAT File
+ ⚠️ **Note:** Extract `Automation-Create-Exam-Folders-main` to a local folder (e.g., `D:\Automation-Create-Exam-Folders-main`); the script will not run otherwise.
 
 A `RunExamAutomation.bat` file is included for one-click execution.
 
