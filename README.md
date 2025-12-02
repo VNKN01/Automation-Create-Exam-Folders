@@ -1,4 +1,4 @@
-## Quick Launch with BAT File
+## Quick Launch with BAT File(Extract all file must local foler not shared folder)
 
 A `RunExamAutomation.bat` file is included for one-click execution.
 
