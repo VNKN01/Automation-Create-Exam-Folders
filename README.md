@@ -4,7 +4,7 @@
 A `RunExamAutomation.bat` file is included for one-click execution.
 
 ### How to use:
-1. Place `RunExamAutomation.bat` and `CreateExamFolders_AnyPC.ps1` in the same folder.
+1. Place all files in the same Local folder. Do not use the  Shared Folder
 2. **Right-click `RunExamAutomation.bat` → Run as Administrator**.
 3. Follow the on-screen prompts.
 
