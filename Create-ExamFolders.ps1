@@ -55,30 +55,30 @@ switch ($examChoice.ToUpper()) {
     default { Write-Host "Invalid choice. Use M or F."; exit }
 }
 
-# Enter year
-$year = Read-Host "Enter Year (e.g., 2025)"
+# Academic year for root folder
+$year = Read-Host "Enter Academic Year (e.g., 2025)"
 
-# Enter dates (without year)
+# Enter full exam date range
 Write-Host ""
-Write-Host "Enter dates as DD-MM (without year). Year will be $year."
-$startInput = Read-Host "Enter Start Date (dd-MM)"
-$endInput   = Read-Host "Enter End Date (dd-MM)"
+Write-Host "Enter exam dates in full format (dd-MM-yyyy)"
+$startInput = Read-Host "Enter Start Date (dd-MM-yyyy)"
+$endInput   = Read-Host "Enter End Date (dd-MM-yyyy)"
 
-# Combine user input with year
-$startDate = "$startInput-$year"
-$endDate   = "$endInput-$year"
-
-# Parse dates
 try {
-    $start = [datetime]::ParseExact($startDate,'dd-MM-yyyy',$null)
-    $end   = [datetime]::ParseExact($endDate,'dd-MM-yyyy',$null)
+    $start = [datetime]::ParseExact($startInput,'dd-MM-yyyy',$null)
+    $end   = [datetime]::ParseExact($endInput,'dd-MM-yyyy',$null)
 }
 catch {
-    Write-Host "Invalid date format. Use dd-MM."
+    Write-Host "Invalid date format. Use dd-MM-yyyy."
     exit
 }
 
-# Build root folder name
+if ($end -lt $start) {
+    Write-Host "End date cannot be earlier than start date."
+    exit
+}
+
+# Build root folder
 $rootName   = "$sessionName $year $examName Examinations"
 $rootFolder = Join-Path $BasePath $rootName
 $logFolder  = Join-Path $BasePath "Logs"
@@ -106,12 +106,13 @@ while ($current -le $end) {
             Show-Step "Created folder" $dateFolder
         }
 
-        # Subfolders
+        # Subfolders (FINAL)
         $subFolders = @(
             "Student Attendance",
             "DB Backup for SQL Database",
             "Get Student for Exam Data File",
-            "Exam File"
+            "Exam File",
+            "SuperintendentAttendanceConductReport"
         )
 
         foreach ($sf in $subFolders) {
@@ -125,15 +126,17 @@ while ($current -le $end) {
     else {
         Show-Step "Skipped Sunday" ($current.ToString('dd-MM-yyyy'))
     }
+
     $current = $current.AddDays(1)
 }
 
 Show-Step "All folders created successfully!"
 Write-Host "Folders created under: $rootFolder" -ForegroundColor Green
 Write-Host "Log file: $logFile"
+
 Stop-Transcript
 
-# Optionally open in Explorer
+# Open in Explorer
 Start-Process explorer.exe $rootFolder
 
 Read-Host "Press ENTER to exit"
